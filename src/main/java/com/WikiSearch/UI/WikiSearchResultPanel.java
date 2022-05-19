@@ -17,8 +17,11 @@ public class WikiSearchResultPanel extends JPanel {
     private JPanel qHeader;
 
     String URL;
-    public WikiSearchResultPanel(String name, String _url) {
+    String name;
+    public WikiSearchResultPanel(String _name, String _url, WikiSearchPanel MainPanel) {
         this.URL = _url;
+        this.name = _name;
+        WikiSearchResultPanel thisP = this;
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -33,12 +36,10 @@ public class WikiSearchResultPanel extends JPanel {
             public void mousePressed(MouseEvent me) {
                 Desktop desktop = java.awt.Desktop.getDesktop();
                 try {
-                    //specify the protocol along with the URL
                     URI oURL = new URI(
                             _url);
                     desktop.browse(oURL);
                 } catch (URISyntaxException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -47,13 +48,10 @@ public class WikiSearchResultPanel extends JPanel {
         });
         setLayout(new GridBagLayout());
         setBackground(ColorScheme.DARKER_GRAY_COLOR);
-        //qHeader = new JPanel(new BorderLayout(5,5));
         qLabel.setText(name);
-        this.URL = _url;
         qLabel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
-        //qHeader.setBackground(ColorScheme.DARKER_GRAY_COLOR);
-        //qHeader.add(qLabel);
         add(qLabel);
+
 
 
     }

@@ -23,7 +23,7 @@ import java.io.FileInputStream;
 @PluginDescriptor(
 		name = "Wiki Search",
 		description = "Allows you to search the OSRS wiki in client",
-		tags = { "quest", "helper", "overlay" }
+		tags = { "wiki", "search", "help" }
 )
 public class WikiSearchPlugin extends Plugin
 

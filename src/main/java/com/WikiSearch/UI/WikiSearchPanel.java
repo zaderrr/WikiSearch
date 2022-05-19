@@ -20,6 +20,8 @@ public class WikiSearchPanel extends PluginPanel {
     private final IconTextField searchBar = new IconTextField();
 
     List<WikiSearchResultPanel> panels = new ArrayList<>();
+    List<WikiSearchResultPanel> SearchHistory = new ArrayList<>();
+
 
     public WikiSearchPanel()
     {
@@ -27,7 +29,6 @@ public class WikiSearchPanel extends PluginPanel {
 
         this.setLayout(new GridLayout(0, 1, 2,2));
         this.setBorder(new EmptyBorder(10, 10, 10, 10));
-        // Search Bar for filtering quests.
         searchBar.setIcon(IconTextField.Icon.SEARCH);
         searchBar.setPreferredSize(new Dimension(PluginPanel.WIDTH - 10, 30));
         searchBar.setBackground(ColorScheme.DARKER_GRAY_COLOR);
@@ -85,20 +86,24 @@ public class WikiSearchPanel extends PluginPanel {
             panels.forEach((this::remove));
         }
         final String text = searchBar.getText();
-        String Formatted = text.replace(" ", "%20");
-        HashMap<String,String> results = WikiSearchHelper.SearchApi(Formatted);
-
-        results.forEach((key, value) -> {
-            this.AddSearchResult(key, value);
+        if (text.length() == 0){
+            SearchHistory.forEach((this::add));
             revalidate();
-        });
+        }else {
+            String Formatted = text.replace(" ", "%20");
+            HashMap<String, String> results = WikiSearchHelper.SearchApi(Formatted);
+
+            results.forEach((key, value) -> {
+                this.AddSearchResult(key, value);
+                revalidate();
+            });
+        }
     }
 
     public void AddSearchResult(String result, String url){
-        WikiSearchResultPanel rPanel = new WikiSearchResultPanel(result, url);
+        WikiSearchResultPanel rPanel = new WikiSearchResultPanel(result, url, this);
         this.add(rPanel);
         panels.add(rPanel);
-
     }
 
 
